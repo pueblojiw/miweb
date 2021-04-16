@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximumscale=1.0, user-scalable=no" />
+    <title>Resguardos Jiw</title>
+    <link rel="Stylesheet" href="leaflet.css">
+    <link rel="Stylesheet" href="ejemplo.css">
+    <link rel="Stylesheet" href="leaflet.leyend.css">
+    <script src="leaflet.js"></script>
+    <script src="provider.js"></script>
+    <script src="leaflet.leyend.js"></script>
+    <script src="data/dpto_guaviare.geojson"></script>      
+    <script src="data/meta.geojson"></script>   
+    <script src="data/resguardos_guaviare.geojson"></script>
+    <script src="data/resguardos_jiw.geojson"></script>
+    <script src="data/resguardos_jiw_1.geojson"></script>
+    <script src="data/lindosa.geojson"></script>
+    <script src="data/drenaje_sencillo.geojson"></script>
+    <script src="data/rio_guaviare.geojson"></script>
+    <script src="data/lagunas.geojson"></script>
+    <script src="data/caño_mina.geojson"></script>
+    <script src="data/caño_prorio.geojson"></script>
+    <script src="data/corozal.geojson"></script>
+    <script src="data/pretenciones_etnicas.geojson"></script>
+    <script src="data/poligrow.geojson"></script>
+    <script src="data/campesina.geojson"></script>
+
+</head>
+<body>
+    <style>
+        body {
+          padding: 0;
+          margin: 0;
+        }
+        html, body, #mapa {
+          height: 100%;
+        }
+    </style>
+<div id='mapa'></div>
+<script>
+   
+   var mymap = L.map('mapa').setView([3.337954, -72.095032],8);
+   
+
+
+    var satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	    attribution: ''
+    }).addTo(mymap);
+    
+
+    var OSM = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mymap);
+
+
+    
+    function guaviareStyle(feature) {
+    return {
+        fillColor: 'red',
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        dashArray: '10',
+        fillOpacity: 0.1
+    };
+}
+    var guaviare =L.geoJson(guaviare,{style: guaviareStyle}).addTo(mymap);   
+
+    function campesinaStyle(feature) {
+    return {
+        fillColor: '#2D98FD',
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        dashArray: '1',
+        fillOpacity: 0.1
+    };
+}
+    var campesina =L.geoJson(campesina,{style: campesinaStyle}).addTo(mymap);   
+    
+    function metaStyle(feature) {
+    return {
+        fillColor: 'yellow',
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        dashArray: '10',
+        fillOpacity: 0.1
+    };
+}
+var meta =L.geoJson(meta,{style: metaStyle}).addTo(mymap);
+
+function poligrowStyle(feature) {
+    return {
+        fillColor: 'red',
+        weight: 1,
+        opacity: 0.2,
+        color: 'black',
+        dashArray: '1',
+        fillOpacity: 0.1
+    };
+}
+    var poligrow =L.geoJson(poligrow,{style : poligrowStyle, onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["nombre"])
+	}}).addTo(mymap);
+
+function resguardos_guaviareStyle(feature){
+            return {
+                fillColor : 'green',
+                weight : 1, 
+                opacity : 0.3,
+                color : 'black', 
+                dashArray : 1, 
+                fillOpacity : 0.7
+            }
+        }
+
+        function pretencionesStyle(feature){
+            return {
+                fillColor : 'green',
+                weight : 0, 
+                opacity : 1,
+                color : 'black', 
+                dashArray : 1, 
+                fillOpacity : 0.3
+            }
+        }
+
+    var resguardos_guaviare = L.geoJson(resguardos_guaviare,{style : resguardos_guaviareStyle, onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["NOMBRE_RES"] + '<br>'+ '(' + feature.properties["PUEBLO"] +  ')')
+	}}).addTo(mymap);
+    var pretenciones = L.geoJson(pretenciones,{style : pretencionesStyle, onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["NOMBRE_COM"] + '<br>'+ 'en proceso de ANT')
+	}}).addTo(mymap);
+
+    var jiwLayer; 
+    
+    function jiwStyle(feature){
+            return {
+                fillColor : 'red',
+                weight : 0, 
+                opacity : 1,
+                color : 'black', 
+                dashArray : 1, 
+                fillOpacity : 0.7
+            }
+        }
+
+    var jiw = L.geoJson(jiw,{style : jiwStyle,onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["NOMBRE_RES"])
+	}}).addTo(mymap);
+
+    var corozal = L.geoJson(corozal,{style : resguardos_guaviareStyle,onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["NOMBRE_RES"]+ '<br>'+ '(' + feature.properties["PUEBLO"] +  ')')
+	}}).addTo(mymap);
+
+    var jiw_1 = L.geoJson(jiw_1,{style : jiwStyle,onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["NOMBRE_COM"])
+	}}).addTo(mymap);
+
+       
+            
+    function lindosaStyle(feature) {
+    return {
+        fillColor: 'purple',
+        weight: 0,
+        opacity: 1,
+        color: 'black',
+        dashArray: '1',
+        fillOpacity: 0.5
+    };
+}
+
+    var lindosa =L.geoJson(lindosa,{style: lindosaStyle,onEachFeature: function(feature, layer){
+		layer.bindPopup(feature.properties["nombre"])
+	}}).addTo(mymap); 
+    
+    
+
+
+    var jiwIcon = L.icon({
+    iconUrl: './images/jiw_icon.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+var ejercitoIcon = L.icon({
+    iconUrl: './images/ejercito_icon.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+var poligrowIcon = L.icon({
+    iconUrl: './images/poligrow.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var masacreIcon = L.icon({
+    iconUrl: './images/masacres.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+var puebloIcon = L.icon({
+    iconUrl: './images/pueblo.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
+        var point = [2.892314, -72.134548];
+        var marker =L.marker(point,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker = L.marker(point, {icon: puebloIcon});
+        myMarker.addTo(mymap);
+        myMarker.bindPopup(
+            '<b>Mapiripán</b><p><a href="http://www.observatoriodetierras.org/wp-content/uploads/2015/08/ART.-RODR%C3%8DGUEZ-2014-DESPOJO-BALD%C3%8DOS-Y-CONFLICTO-ARMADO.pdf"</a> Artículo despojo </p><p><a href="https://issuu.com/comisionjusticiaypaz/docs/los_claro_oscuros_del_grupo_palmicu"</a> Artículo despojo 2 </p></div>',
+            {minWidth:300}
+        );
+        var point1 = [2.568723, -72.642379];
+        var marker1 =L.marker(point1,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker1 = L.marker(point1, {icon: puebloIcon});
+        myMarker1.addTo(mymap);
+        myMarker1.bindPopup(
+            '<b>San José del Guaviare</b>',
+            {minWidth:300}
+        );
+        var point01 = [2.797580, -71.983302];
+        var marker01 =L.marker(point01,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker01 = L.marker(point01, {icon: puebloIcon});
+        myMarker01.addTo(mymap);
+        myMarker01.bindPopup(
+            '<b>Charras</b>',
+            {minWidth:300}
+        );
+        var point02 = [2.896952, -71.750217];
+        var marker02 =L.marker(point02,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker02 = L.marker(point02, {icon: puebloIcon});
+        myMarker02.addTo(mymap);
+        myMarker02.bindPopup(
+            '<b>Puerto Alvira</b>',
+            {minWidth:300}
+        );
+        var point03 = [2.623881, -72.758272];
+        var marker03 =L.marker(point03,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker03 = L.marker(point03, {icon: puebloIcon});
+        myMarker03.addTo(mymap);
+        myMarker03.bindPopup(
+            '<b>Puerto Concordia</b>',
+            {minWidth:300}
+        );
+        var point04 = [2.743044, -72.438011];
+        var marker04 =L.marker(point04,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker04 = L.marker(point04, {icon: puebloIcon});
+        myMarker04.addTo(mymap);
+        myMarker04.bindPopup(
+            '<b>El Mielón</b>',
+            {minWidth:300}
+        );
+        var point05 = [2.62087, -72.329586];
+        var marker05 =L.marker(point05,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker05 = L.marker(point05, {icon: puebloIcon});
+        myMarker05.addTo(mymap);
+        myMarker05.bindPopup(
+            '<b>El Boquerón</b>',
+            {minWidth:300}
+        );
+        var point06 = [2.816386, -71.790032];
+        var marker06 =L.marker(point06,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker06 = L.marker(point06, {icon: puebloIcon});
+        myMarker06.addTo(mymap);
+        myMarker06.bindPopup(
+            '<b>Cumaré</b>',
+            {minWidth:300}
+        );
+        var point07 = [2.869086, -71.532626];
+        var marker07 =L.marker(point07,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker07 = L.marker(point07, {icon: puebloIcon});
+        myMarker07.addTo(mymap);
+        myMarker07.bindPopup(
+            '<b>Mocuare</b>',
+            {minWidth:300}
+        );
+        var point08 = [2.546176, -72.481989];
+        var marker08 =L.marker(point08,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker08 = L.marker(point08, {icon: puebloIcon});
+        myMarker08.addTo(mymap);
+        myMarker08.bindPopup(
+            '<b>El Resbalón</b>',
+            {minWidth:300}
+        );
+   
+        var point09 = [2.580657, -72.588387];
+        var marker09 =L.marker(point09,{icon: ejercitoIcon} ).addTo(mymap);
+        var myMarker09 = L.marker(point09, {icon: ejercitoIcon});
+        myMarker09.addTo(mymap);
+        myMarker09.bindPopup(
+            '<b>Escuela de Fuerzas Especiales de Infantería y Marina</b>',
+            {minWidth:300}
+        );
+        var point010 = [2.578888, -72.865813];
+        var marker010 =L.marker(point010,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker010 = L.marker(point010, {icon: puebloIcon});
+        myMarker010.addTo(mymap);
+        myMarker010.bindPopup(
+            '<b>Bocas del Raudal</b>',
+            {minWidth:300}
+        );
+        var point011 = [2.523464, -72.951815];
+        var marker011 =L.marker(point011,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker011 = L.marker(point011, {icon: puebloIcon});
+        myMarker011.addTo(mymap);
+        myMarker011.bindPopup(
+            '<b>Bellavista</b>',
+            {minWidth:300}
+        );
+        var point012 = [2.464994, -72.931001];
+        var marker012 =L.marker(point012,{icon: puebloIcon} ).addTo(mymap);
+        var myMarker012 = L.marker(point012, {icon: puebloIcon});
+        myMarker012.addTo(mymap);
+        myMarker012.bindPopup(
+            '<b>La Carpa</b>',
+            {minWidth:300}
+        );
+   
+   
+
+        var point2 = [2.546911, -72.682785];
+        var marker2 =L.marker(point2, {icon: jiwIcon}).addTo(mymap);
+        var myMarker2 = L.marker(point2, {icon: jiwIcon});
+        myMarker2.addTo(mymap);
+        myMarker2.bindPopup(
+            '<b>La María /Wuej Lajt/</b>',
+            {minWidth:300}
+        );
+        var point3 = [2.593308, -72.569382];
+        var marker3 =L.marker(point3, {icon: jiwIcon}).addTo(mymap);
+        var myMarker3 = L.marker(point3, {icon: jiwIcon});
+        myMarker3.addTo(mymap);
+        myMarker3.bindPopup(
+            '<b>Barrancón /Bakam/</b> <p><a href="http://www.redcolombia.org/2012/11/28/jiw-la-agonia-de-un-pueblo/"</a> Artículo Redher </p></div>',
+            {minWidth:300}
+        );
+
+        var point4 = [2.625139, -72.488952];
+        var marker4 =L.marker(point4, {icon: jiwIcon}).addTo(mymap);
+        var myMarker4 = L.marker(point4, {icon: jiwIcon});
+        myMarker4.addTo(mymap);
+        myMarker4.bindPopup(
+            '<b>La Fuga /Char-on laja char-on/</b>',
+            {minWidth:300}
+        );
+        var point5 = [2.739350, -72.510978];
+        var marker5 =L.marker(point5, {icon: jiwIcon}).addTo(mymap);
+        var myMarker5 = L.marker(point5, {icon: jiwIcon});
+        myMarker5.addTo(mymap);
+        myMarker5.bindPopup(
+            '<b>Caño La Sal /Masal/</b><a href= "https://www.elespectador.com/noticias/medio-ambiente/jiw-un-pueblo-acorralado-en-su-territorio/"</a> Noticia Espectador</div>',
+            {minWidth:300}
+        );
+        var point6 = [2.780166, -71.792221];
+        var marker6 =L.marker(point6, {icon: jiwIcon}).addTo(mymap);
+        var myMarker6 = L.marker(point6, {icon: jiwIcon});
+        myMarker6.addTo(mymap);
+        myMarker6.bindPopup(
+            '<b>Barranco Colorado /Karnüm/</b>',
+            {minWidth:300}
+        );
+        var point7 = [2.792346, -71.624067];
+        var marker7 =L.marker(point7,{icon: jiwIcon}).addTo(mymap);
+        var myMarker7 = L.marker(point7,{icon: jiwIcon});
+        myMarker7.addTo(mymap);
+        myMarker7.bindPopup(
+            '<b>Barranco Ceiba /Nawel jalpa/</b>',
+            {minWidth:300}
+        );
+        var point8 = [2.917086, -71.603338];
+        var greenIcon =L.marker(point8, {icon: jiwIcon}).addTo(mymap);
+        var myMarker8 = L.marker(point8, {icon: jiwIcon});
+        myMarker8.addTo(mymap);
+        myMarker8.bindPopup(
+            '<b>Mocuare /Makuer/</b>',
+            {minWidth:300}
+        );
+        var point9 = [2.900489, -72.199459];
+        var greenIcon =L.marker(point9, {icon: jiwIcon}).addTo(mymap);
+        var myMarker9 = L.marker(point9,{icon: jiwIcon});
+        myMarker9.addTo(mymap);
+        myMarker9.bindPopup(
+            '<b>Zaragozas /Naexal Lajt/</b><div><p><a href="https://www.agenciadetierras.gov.co/wp-content/uploads/2019/08/ACUERDO-75.pdf"</a> Acuerdo No. 75 de 2018 </p></div>',
+            {minWidth:300}
+        );
+        var point10 = [2.741731, -72.648567];
+        var greenIcon =L.marker(point10,{icon: jiwIcon}).addTo(mymap);
+        var myMarker10 = L.marker(point10, {icon: jiwIcon});
+        myMarker10.addTo(mymap);
+        myMarker10.bindPopup(
+            '<b>Luna Roja </b> <p><a href= "https://www.humanitarianresponse.info/sites/www.humanitarianresponse.info/files/assessments/260215%20Informe%20MIRA%20Luna%20Roja.pdf"</a>Documento</p><p><a href=https://www.wayuunaiki.com.ve/titulares/campesinos-vs-indigenas-la-pelea-por-las-tierras-en-meta-y-guaviare/"</a>noticia</p><p><a href=https://issuu.com/laavenida/docs/art2"</a>noticia</p></div>',
+            {minWidth:300}
+        );
+        var point11 = [2.558803, -72.923877];
+        var greenIcon =L.marker(point11,{icon: jiwIcon}).addTo(mymap);
+        var myMarker11 = L.marker(point11, {icon: jiwIcon});
+        myMarker11.addTo(mymap);
+        myMarker11.bindPopup(
+            '<b>Ceiba territorio ancestral /Papur lajt/</b> <p><a href= "https://www.eltiempo.com/archivo/documento/CMS-13674177"</a>Noticia El Tiempo</p><a href="https://infoamazonia.org/es/2019/08/espanol-la-tierra-de-los-jiw-en-guaviare-se-acaba-a-manos-de-colonos-militares-y-grupos-ilegales/#!/map=51549&story=post-20126"</a>Documento <p><a href=https://www.parquesnacionales.gov.co/portal/es/ecoturismo/region-amazonia-y-orinoquia/parque-nacional-natural-sierra-de-la-macarena/comunidades/"</a> PNN La Macarena </p></div>',
+            {minWidth:300}
+        );
+        var point12 = [3.030719, -70.256775];
+        var greenIcon =L.marker(point12,{icon: jiwIcon}).addTo(mymap);
+        var myMarker12 = L.marker(point12, {icon: jiwIcon});
+        myMarker12.addTo(mymap);
+        myMarker12.bindPopup(
+            '<b><p>Raudal de Mapiripana </p></div>',
+            {minWidth:300}
+        );
+        var point13 = [2.864144, -71.940406];
+        var greenIcon =L.marker(point13,{icon: jiwIcon}).addTo(mymap);
+        var myMarker13 = L.marker(point13, {icon: jiwIcon});
+        myMarker13.addTo(mymap);
+        myMarker13.bindPopup(
+            '<b><p>Caño Mina, asentamiento ancestral</p></div>',
+            {minWidth:300}
+        );
+        var point14 = [2.897070, -72.141329];
+        var greenIcon =L.marker(point14,{icon: jiwIcon}).addTo(mymap);
+        var myMarker14 = L.marker(point14, {icon: jiwIcon});
+        myMarker14.addTo(mymap);
+        myMarker14.bindPopup(
+            '<b><p>Chewn</p></div>',
+            {minWidth:300}
+        );
+        var point15 = [2.573993, -72.643753];
+        var greenIcon =L.marker(point15,{icon: jiwIcon}).addTo(mymap);
+        var myMarker15 = L.marker(point15, {icon: jiwIcon});
+        myMarker15.addTo(mymap);
+        myMarker15.bindPopup(
+            '<b><p>Mató</p></div>',
+            {minWidth:300}
+        );
+        var point16 = [3.012723, -72.204650];
+        var greenIcon =L.marker(point16,{icon: poligrowIcon}).addTo(mymap);
+        var myMarker16 = L.marker(point16, {icon: poligrowIcon});
+        myMarker16.addTo(mymap);
+        myMarker16.bindPopup(
+            '<b>Poligrow</b><p><a href="https://pbicolombiablog.org/2018/01/13/los-sikuani-y-los-jiw-luchan-por-la-madre-tierra/"</a>noticias ver pie paginas</p></div>',
+            {minWidth:300}
+        );
+	        var point17 = [2.908576, -72.089267];
+        var greenIcon =L.marker(point17,{icon: poligrowIcon}).addTo(mymap);
+        var myMarker17 = L.marker(point17, {icon: poligrowIcon});
+        myMarker17.addTo(mymap);
+        myMarker17.bindPopup(
+            '<b>Planta de extracción de Poligrow y lugar donde se busca constituir una Zona Franca Permanente Especial</b>',
+            {minWidth:300}
+        );
+        var point18 = [2.574419, -72.76803];
+        var greenIcon =L.marker(point18,{icon: jiwIcon}).addTo(mymap);
+        var myMarker18 = L.marker(point18, {icon: jiwIcon});
+        myMarker18.addTo(mymap);
+        myMarker18.bindPopup(
+            '<b>Puerto Arturo /Kanow xaówax/</b>',
+            {minWidth:300}
+        );
+        var point19 = [2.586401, -72.598579];
+        var greenIcon =L.marker(point19,{icon: jiwIcon}).addTo(mymap);
+        var myMarker19 = L.marker(point19, {icon: jiwIcon});
+        myMarker19.addTo(mymap);
+        myMarker19.bindPopup(
+            '<b>Bocas de Aguabonita /Katon lajt/ asentamiento ancestral</b>',
+            {minWidth:300}
+        );
+        var point20 = [4.852891, -71.122142];
+        var greenIcon =L.marker(point20,{icon: jiwIcon}).addTo(mymap);
+        var myMarker20 = L.marker(point20, {icon: jiwIcon});
+        myMarker20.addTo(mymap);
+        myMarker20.bindPopup(
+            '<b>Corozal Tapaojo</b>',
+            {minWidth:300}
+        );
+
+        var circle = L.circle([3.072315, -73.278494], {
+        color: 'red',
+         fillColor: '#f03',
+         fillOpacity: 0.5,
+         radius: 22000
+        }).addTo(mymap).bindPopup("Territorio ancestral");
+
+
+    var baseMaps = {
+    "Imagen satelital": satelite,
+    "Open Street Maps": OSM
+
+    };
+
+    var overlayMaps = {
+
+    
+    };
+
+    L.control.layers(baseMaps, overlayMaps).addTo(mymap);
+
+    L.control.scale().addTo(mymap);
+
+    L.control.Legend({
+    position: "bottomright",
+    title:"Convenciones",
+    legends: [
+        {
+            label: "Guaviare",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#FE97A5",
+                weight: 2,
+                layers: [guaviare],
+                inactive: false,
+        
+    },
+    {
+            label: "Zona de reserva campesina",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#ACD0F1",
+                weight: 2,
+                layers: [campesina],
+                inactive: false,
+        
+    },
+    {
+        label: "Centros poblados",
+                type: "image",
+                url: "images/pueblo.png",
+        
+    },
+    {
+        label: "Poligrow",
+                type: "image",
+                url: "images/poligrow.png",
+        
+    },
+    {
+    label: "Asentamientos Jiw",
+                type: "image",
+                url: "images/jiw_icon.png",
+                layers: [myMarker],
+                inactive: false,
+        
+    },
+    {
+            label: "Municipios Meta",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#FEF597",
+                weight: 2,
+                layers: [meta],
+                inactive: false,
+        
+    },{
+                label: "Resguardos Jiw",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#FF0000",
+                weight: 2,
+                layers: [jiw, jiw_1],
+                inactive: false,
+    
+            },{
+                label: "Serranía La Lindosa",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#E371FE",
+                weight: 2,
+                layers: [lindosa],
+                inactive: false,
+            },{
+                label: "Resguardos indígenas vecinos",
+                type: "rectangle",
+                sides: 4,
+                color: "#000000",
+                fillColor: "#1FB323",
+                weight: 2,
+                layers: [resguardos_guaviare, pretenciones],
+                inactive: false,
+            }]
+}).addTo(mymap);
+
+
+var cañosLayer;
+
+
+function highlightFeature(e){
+    var layer = e.target; 
+    layer.setStyle(
+        { 
+        weight : 5 ,
+        color : '#8692FE',
+        fillColor : 'white',
+        fillOpacity : 0 
+        }
+    );
+    if(!L.Browser.ie && !L.Browser.opera){
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e){
+    cañosLayer.resetStyle(e.target);
+}
+
+function zoomToFeature(e){
+    mymap.fitBounds(e.target.getBounds());
+}
+
+
+function cañosOnEachFeature(feature, layer){layer.bindPopup(feature.properties["NOMBRE_GEO"]),
+
+
+  
+    layer.on(
+        {
+            mouseover : highlightFeature,
+            mouseout : resetHighlight,
+        }
+    );
+}
+
+
+
+function cañosStyle(feature) {
+    return {
+        fillColor: 'blue',
+        weight: 2,
+        opacity: 1,
+        color: 'blue',
+        dashArray: '1',
+        fillOpacity: 1
+    };
+}
+
+
+var cañosLayer = L.geoJson(
+            caños,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+
+
+            var rio = L.geoJson(
+            rio,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+
+            var prorio = L.geoJson(
+            prorio,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+
+            var mina = L.geoJson(
+            mina,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+
+            var lagunas = L.geoJson(
+            lagunas,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+
+
+</script>
+
+</body>
+</html>
