@@ -26,6 +26,8 @@
     <script src="data/pretenciones_etnicas.geojson"></script>
     <script src="data/poligrow.geojson"></script>
     <script src="data/campesina.geojson"></script>
+    <script src="data/vias_gua.geojson"></script>
+    <script src="data/vias_meta.geojson"></script>
 
 </head>
 <body>
@@ -178,7 +180,20 @@ function resguardos_guaviareStyle(feature){
 		layer.bindPopup(feature.properties["nombre"])
 	}}).addTo(mymap); 
     
-    
+     function viasStyle(feature) {
+    return {
+        fillColor: 'red',
+        weight: 2,
+        opacity: 0.2,
+        color: 'black',
+        dashArray: '1',
+        fillOpacity: 1
+    };
+}
+
+    var vias_gua =L.geoJson(vias_gua,{style: viasStyle}).addTo(mymap);   
+    var vias_meta =L.geoJson(vias_meta,{style: viasStyle}).addTo(mymap);   
+   
 
 
     var jiwIcon = L.icon({
