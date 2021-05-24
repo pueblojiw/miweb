@@ -10,6 +10,7 @@
     <link rel="Stylesheet" href="leaflet.leyend.css">
     <script src="leaflet.js"></script>
     <script src="provider.js"></script>
+	    <script src='src.js'></script>
     <script src="leaflet.leyend.js"></script>
     <script src="data/dpto_guaviare.geojson"></script>      
     <script src="data/meta.geojson"></script>   
@@ -31,6 +32,18 @@
 
 </head>
 <body>
+	<div id="map"></div>
+    <div id='event'>
+        <input type="button" value="Barrancón sector Caño Ceiba I y II" class="btn" onclick="setData1()">
+        <input type="button" value="Prorio (antiguo hospital Pto Concordia)" class="btn" onclick="setData2()">
+        <input type="button" value="Reubicación 2002" class="btn" onclick="setData3()">
+        <input type="button" value="Destierro 2009" class="btn" onclick="setData4()">
+        <input type="button" value="Retorno katío 2012" class="btn" onclick="setData5()">
+        <input type="button" value="Regreso a Puerto Boyacá 2014-2016" class="btn" onclick="setData6()">
+        <input type="button" value="ocultar flujos" class="btn" onclick="hide()">
+        <input type="button" value="mostrar flujos" class="btn" onclick="show()">
+
+    </div>
     <style>
         body {
           padding: 0;
@@ -43,7 +56,7 @@
 <div id='mapa'></div>
 <script>
    
-   var mymap = L.map('mapa').setView([3.337954, -72.095032],8);
+   var mymap = L.map('mapa').setView([2.742787, -72.196655],10);
    
 
 
@@ -58,7 +71,87 @@
 }).addTo(mymap);
 
 
+    2.742787, -72.196655],10);
+   
+
+
+    var satelite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	    attribution: ''
+    }).addTo(mymap);
     
+
+    var OSM = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+	maxZoom: 20,
+	attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(mymap);
+
+var data = [{"from":[-72.960033, 2.577484],"to":[-72.758288, 2.623163],"labels":["Caño Ceiba","Puerto Concordia"],"color":"#ff3a31","value":1},{"from":[-72.758288, 2.623163],"to":[-72.472, 2.742787],"labels":["Puerto Concordia","La Sal"],"color":"#ff3a31", "value":1},{"from":[-72.472, 2.742787],"to":[-72.578001, 2.583829],"labels":["La Sal","Palmeras"],"color":"#ff3a31","value":1}, {"from":[-72.578001, 2.583829],"to":[-72.576027, 2.596005],"labels":["Palmeras","Marulla"],"color":"#ff3a31","value":1}, {"from":[-72.576027, 2.596005],"to":[-72.70443, 2.6255],"labels":["Marulla","Puerto Cacao"],"color":"#ff3a31","value":1}, {"from":[-72.70443, 2.6255],"to":[-72.765198, 2.570968],"labels":["Puerto Cacao","Puerto Arturo"],"color":"#ff3a31","value":1}, {"from":[-72.765198, 2.570968],"to":[-72.730694, 2.568738],"labels":["Puerto Arturo","Plya Güío"],"color":"#ff3a31","value":1},  {"from":[-72.730694, 2.568738],"to":[-72.535901, 2.617826],"labels":["Playa Güío","Pipirera"],"color":"#ff3a31","value":1}];
+        
+
+        var data_ceiba = [{"from":[-73.011017, 2.60698],"to":[-72.758288, 2.623163],"labels":["Caño Ceiba","Puerto Concordia"],"color":"#ff3a31","value":1},{"from":[-72.758288, 2.623163],"to":[-72.472, 2.742787],"labels":["Puerto Concordia","La Sal"],"color":"#ff3a31", "value":1},{"from":[-72.472, 2.742787],"to":[-72.578001, 2.583829],"labels":["La Sal","Palmeras"],"color":"#ff3a31","value":1}, {"from":[-72.578001, 2.583829],"to":[-72.576027, 2.596005],"labels":["Palmeras","Marulla"],"color":"#ff3a31","value":1}, {"from":[-72.576027, 2.596005],"to":[-72.70443, 2.6255],"labels":["Marulla","Puerto Cacao"],"color":"#ff3a31","value":1}, {"from":[-72.70443, 2.6255],"to":[-72.765198, 2.570968],"labels":["Puerto Cacao","Puerto Arturo"],"color":"#ff3a31","value":1}, {"from":[-72.765198, 2.570968],"to":[-72.730694, 2.568738],"labels":["Puerto Arturo","Plya Güío"],"color":"#ff3a31","value":1},  {"from":[-72.730694, 2.568738],"to":[-72.535901, 2.617826],"labels":["Playa Güío","Pipirera"],"color":"#ff3a31","value":1}];
+        
+        var data_2000 = [{"from":[-71.542969, 2.916982],"to":[-72.576714, 2.588802],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.576714, 2.588802],"to":[-72.132196, 2.891781],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.132196, 2.891781],"to":[-72.198672, 2.874165],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.198672, 2.874165],"to":[-72.758288, 2.623163],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}];
+
+        var data_2002 = [{"from":[-74.589473, 5.977738],"to":[-74.372880, 6.001507],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.589473, 5.977738],"to":[-74.372880, 6.003507],"labels":["Amurrupá","Casaloma"],"color":"#ff3a31","value":1}];
+
+        var data_2009 = [{"from":[-76.170633, 5.370335],"to":[-74.372880, 6.002507],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}];
+
+        var data_2012 = [{"from":[-74.372880, 6.002507],"to":[-76.1395026642065, 5.3216320450382],"labels":["","amurrupa"],"color":"#ff3a31","value":1},{"from":[-74.372880, 6.002507],"to":[-76.23037, 5.33194],"labels":["","Peñas"],"color":"#1B2BF0", "value":1},{"from":[-74.372880, 6.002507],"to":[-76.170633, 5.370335],"labels":["Gito Docabú","Gito Docabú"],"color":"#CD1BF0","value":1}];
+
+        var data_2014 = [{"from":[-76.1395026642065, 5.3216320450382],"to":[-74.400274, 6.015819],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-76.23037, 5.33194],"to":[-74.400274, 6.015819],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-76.170633, 5.370335],"to":[-74.400274, 6.015819],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012392],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012392],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012382],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.383436, 6.012382],"to":[-74.327998, 5.850710],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.384436, 6.012482],"to":[-74.327998, 5.850610],"labels":["Amurrupá","Casaloma"],"color":"#ff3a31","value":1},  {"from":[-74.384436, 6.012582],"to":[-74.326998, 5.851610],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.326998, 5.851610],"to":[-74.593752, 5.958819],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-74.323898, 5.852710],"to":[-74.592852, 5.958819],"labels":["","amurrupa"],"color":"#1B2BF0","value":1}, {"from":[-74.323898, 5.852510],"to":[-74.592852, 5.958619],"labels":["","amurrupa"],"color":"#CD1BF0","value":1}],
+
+        data = data.map(item => { return {...item, value: parseInt(Math.random()*1)}});
+      
+
+        var migrationLayer = new L.migrationLayer({
+            map: mymap,
+            data: data,
+            pulseRadius:50,
+            pulseBorderWidth:6,
+            arcWidth:2,
+            arcLabel:false,
+            arcLabelFont:'10px sans-serif',
+            maxWidth:10
+            }
+        );
+        migrationLayer.addTo(mymap);
+        function setData1(){
+            migrationLayer.setData(data_ceiba);
+        }
+        migrationLayer.addTo(mymap);
+        function setData2(){
+            migrationLayer.setData(data_2000);
+        }
+        function setData3(){
+            migrationLayer.setData(data_2002);
+        }
+        function setData4(){
+            migrationLayer.setData(data_2009);
+        }
+        function setData5(){
+            migrationLayer.setData(data_2012);
+        }
+        function setData6(){
+            migrationLayer.setData(data_2014);
+        }
+        function hide(){
+            migrationLayer.hide();
+        }
+        function show(){
+            migrationLayer.show();
+        }
+        function play(){
+            migrationLayer.play();
+        }
+        function pause(){
+            migrationLayer.pause();
+        }
+        function destroy() {
+            migrationLayer.destroy();
+        }        
+
+
+        data = data.map(item => { return {...item, value: parseInt(Math.random()*1)}});
     function guaviareStyle(feature) {
     return {
         fillColor: 'red',
