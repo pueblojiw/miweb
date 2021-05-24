@@ -10,6 +10,7 @@
     <link rel="Stylesheet" href="leaflet.leyend.css">
     <script src="leaflet.js"></script>
     <script src="provider.js"></script>
+    <script src='src.js'></script>
     <script src="leaflet.leyend.js"></script>
     <script src="data/dpto_guaviare.geojson"></script>      
     <script src="data/meta.geojson"></script>   
@@ -26,9 +27,22 @@
     <script src="data/pretenciones_etnicas.geojson"></script>
     <script src="data/poligrow.geojson"></script>
     <script src="data/campesina.geojson"></script>
+    <script src="data/vias_gua.geojson"></script>
 
 </head>
 <body>
+    <div id="map"></div>
+    <div id='event'>
+        <input type="button" value="Barrancón sector Caño Ceiba I y II" class="btn" onclick="setData1()">
+        <input type="button" value="Prorio (antiguo hospital Pto Concordia)" class="btn" onclick="setData2()">
+        <input type="button" value="Reubicación 2002" class="btn" onclick="setData3()">
+        <input type="button" value="Destierro 2009" class="btn" onclick="setData4()">
+        <input type="button" value="Retorno katío 2012" class="btn" onclick="setData5()">
+        <input type="button" value="Regreso a Puerto Boyacá 2014-2016" class="btn" onclick="setData6()">
+        <input type="button" value="ocultar flujos" class="btn" onclick="hide()">
+        <input type="button" value="mostrar flujos" class="btn" onclick="show()">
+
+    </div>
     <style>
         body {
           padding: 0;
@@ -41,7 +55,7 @@
 <div id='mapa'></div>
 <script>
    
-   var mymap = L.map('mapa').setView([3.337954, -72.095032],8);
+   var mymap = L.map('mapa').setView([2.742787, -72.196655],10);
    
 
 
@@ -55,7 +69,73 @@
 	attribution: '&copy; Openstreetmap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(mymap);
 
+var data = [{"from":[-72.960033, 2.577484],"to":[-72.758288, 2.623163],"labels":["Caño Ceiba","Puerto Concordia"],"color":"#ff3a31","value":1},{"from":[-72.758288, 2.623163],"to":[-72.472, 2.742787],"labels":["Puerto Concordia","La Sal"],"color":"#ff3a31", "value":1},{"from":[-72.472, 2.742787],"to":[-72.578001, 2.583829],"labels":["La Sal","Palmeras"],"color":"#ff3a31","value":1}, {"from":[-72.578001, 2.583829],"to":[-72.576027, 2.596005],"labels":["Palmeras","Marulla"],"color":"#ff3a31","value":1}, {"from":[-72.576027, 2.596005],"to":[-72.70443, 2.6255],"labels":["Marulla","Puerto Cacao"],"color":"#ff3a31","value":1}, {"from":[-72.70443, 2.6255],"to":[-72.765198, 2.570968],"labels":["Puerto Cacao","Puerto Arturo"],"color":"#ff3a31","value":1}, {"from":[-72.765198, 2.570968],"to":[-72.730694, 2.568738],"labels":["Puerto Arturo","Plya Güío"],"color":"#ff3a31","value":1},  {"from":[-72.730694, 2.568738],"to":[-72.535901, 2.617826],"labels":["Playa Güío","Pipirera"],"color":"#ff3a31","value":1}];
+        
 
+        var data_ceiba = [{"from":[-73.011017, 2.60698],"to":[-72.758288, 2.623163],"labels":["Caño Ceiba","Puerto Concordia"],"color":"#ff3a31","value":1},{"from":[-72.758288, 2.623163],"to":[-72.472, 2.742787],"labels":["Puerto Concordia","La Sal"],"color":"#ff3a31", "value":1},{"from":[-72.472, 2.742787],"to":[-72.578001, 2.583829],"labels":["La Sal","Palmeras"],"color":"#ff3a31","value":1}, {"from":[-72.578001, 2.583829],"to":[-72.576027, 2.596005],"labels":["Palmeras","Marulla"],"color":"#ff3a31","value":1}, {"from":[-72.576027, 2.596005],"to":[-72.70443, 2.6255],"labels":["Marulla","Puerto Cacao"],"color":"#ff3a31","value":1}, {"from":[-72.70443, 2.6255],"to":[-72.765198, 2.570968],"labels":["Puerto Cacao","Puerto Arturo"],"color":"#ff3a31","value":1}, {"from":[-72.765198, 2.570968],"to":[-72.730694, 2.568738],"labels":["Puerto Arturo","Plya Güío"],"color":"#ff3a31","value":1},  {"from":[-72.730694, 2.568738],"to":[-72.535901, 2.617826],"labels":["Playa Güío","Pipirera"],"color":"#ff3a31","value":1}];
+        
+        var data_2000 = [{"from":[-71.542969, 2.916982],"to":[-72.576714, 2.588802],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.576714, 2.588802],"to":[-72.132196, 2.891781],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.132196, 2.891781],"to":[-72.198672, 2.874165],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-72.198672, 2.874165],"to":[-72.758288, 2.623163],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}];
+
+        var data_2002 = [{"from":[-74.589473, 5.977738],"to":[-74.372880, 6.001507],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.589473, 5.977738],"to":[-74.372880, 6.003507],"labels":["Amurrupá","Casaloma"],"color":"#ff3a31","value":1}];
+
+        var data_2009 = [{"from":[-76.170633, 5.370335],"to":[-74.372880, 6.002507],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}];
+
+        var data_2012 = [{"from":[-74.372880, 6.002507],"to":[-76.1395026642065, 5.3216320450382],"labels":["","amurrupa"],"color":"#ff3a31","value":1},{"from":[-74.372880, 6.002507],"to":[-76.23037, 5.33194],"labels":["","Peñas"],"color":"#1B2BF0", "value":1},{"from":[-74.372880, 6.002507],"to":[-76.170633, 5.370335],"labels":["Gito Docabú","Gito Docabú"],"color":"#CD1BF0","value":1}];
+
+        var data_2014 = [{"from":[-76.1395026642065, 5.3216320450382],"to":[-74.400274, 6.015819],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-76.23037, 5.33194],"to":[-74.400274, 6.015819],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-76.170633, 5.370335],"to":[-74.400274, 6.015819],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012392],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012392],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.400274, 6.015819],"to":[-74.383436, 6.012382],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.383436, 6.012382],"to":[-74.327998, 5.850710],"labels":["Amurrupá","Casaloma"],"color":"#CD1BF0","value":1}, {"from":[-74.384436, 6.012482],"to":[-74.327998, 5.850610],"labels":["Amurrupá","Casaloma"],"color":"#ff3a31","value":1},  {"from":[-74.384436, 6.012582],"to":[-74.326998, 5.851610],"labels":["Amurrupá","Casaloma"],"color":"#1B2BF0","value":1}, {"from":[-74.326998, 5.851610],"to":[-74.593752, 5.958819],"labels":["","amurrupa"],"color":"#ff3a31","value":1}, {"from":[-74.323898, 5.852710],"to":[-74.592852, 5.958819],"labels":["","amurrupa"],"color":"#1B2BF0","value":1}, {"from":[-74.323898, 5.852510],"to":[-74.592852, 5.958619],"labels":["","amurrupa"],"color":"#CD1BF0","value":1}],
+
+        data = data.map(item => { return {...item, value: parseInt(Math.random()*1)}});
+      
+
+        var migrationLayer = new L.migrationLayer({
+            map: mymap,
+            data: data,
+            pulseRadius:50,
+            pulseBorderWidth:6,
+            arcWidth:2,
+            arcLabel:false,
+            arcLabelFont:'10px sans-serif',
+            maxWidth:10
+            }
+        );
+        migrationLayer.addTo(mymap);
+        function setData1(){
+            migrationLayer.setData(data_ceiba);
+        }
+        migrationLayer.addTo(mymap);
+        function setData2(){
+            migrationLayer.setData(data_2000);
+        }
+        function setData3(){
+            migrationLayer.setData(data_2002);
+        }
+        function setData4(){
+            migrationLayer.setData(data_2009);
+        }
+        function setData5(){
+            migrationLayer.setData(data_2012);
+        }
+        function setData6(){
+            migrationLayer.setData(data_2014);
+        }
+        function hide(){
+            migrationLayer.hide();
+        }
+        function show(){
+            migrationLayer.show();
+        }
+        function play(){
+            migrationLayer.play();
+        }
+        function pause(){
+            migrationLayer.pause();
+        }
+        function destroy() {
+            migrationLayer.destroy();
+        }        
+
+
+        data = data.map(item => { return {...item, value: parseInt(Math.random()*1)}});
     
     function guaviareStyle(feature) {
     return {
@@ -161,7 +241,6 @@ function resguardos_guaviareStyle(feature){
 		layer.bindPopup(feature.properties["NOMBRE_COM"])
 	}}).addTo(mymap);
 
-       
             
     function lindosaStyle(feature) {
     return {
@@ -178,7 +257,19 @@ function resguardos_guaviareStyle(feature){
 		layer.bindPopup(feature.properties["nombre"])
 	}}).addTo(mymap); 
     
-    
+    function viasStyle(feature) {
+    return {
+        fillColor: 'red',
+        weight: 2,
+        opacity: 0.2,
+        color: 'black',
+        dashArray: '1',
+        fillOpacity: 1
+    };
+}
+
+    var vias_gua =L.geoJson(vias_gua,{style: viasStyle}).addTo(mymap);   
+    var vias_meta =L.geoJson(vias_meta,{style: viasStyle}).addTo(mymap);   
 
 
     var jiwIcon = L.icon({
@@ -498,7 +589,46 @@ var puebloIcon = L.icon({
             '<b>Corozal Tapaojo</b>',
             {minWidth:300}
         );
-
+        var point21 = [2.61754, -72.53576];
+        var greenIcon =L.marker(point21,{icon: jiwIcon}).addTo(mymap);
+        var myMarker21 = L.marker(point21, {icon: jiwIcon});
+        myMarker21.addTo(mymap);
+        myMarker21.bindPopup(
+            '<b>Sector Caño Ceiba II</b>',
+            {minWidth:300}
+        );
+        var point22 = [2.61797, -72.53761];
+        var greenIcon =L.marker(point22,{icon: jiwIcon}).addTo(mymap);
+        var myMarker22 = L.marker(point22, {icon: jiwIcon});
+        myMarker22.addTo(mymap);
+        myMarker22.bindPopup(
+            '<b>Sector Caño Ceiba I (Pipirera)</b>',
+            {minWidth:300}
+        );
+        var point23 = [2.5934, -72.5748];
+        var greenIcon =L.marker(point23,{icon: jiwIcon}).addTo(mymap);
+        var myMarker23 = L.marker(point23, {icon: jiwIcon});
+        myMarker23.addTo(mymap);
+        myMarker23.bindPopup(
+            '<b>Sector Escuela</b>',
+            {minWidth:300}
+        );
+        var point24 = [2.5786, -72.5854];
+        var greenIcon =L.marker(point24,{icon: jiwIcon}).addTo(mymap);
+        var myMarker24 = L.marker(point24, {icon: jiwIcon});
+        myMarker24.addTo(mymap);
+        myMarker24.bindPopup(
+            '<b>Sector Mocuare</b>',
+            {minWidth:300}
+        );
+        var point25 = [2.5821, -72.5834];
+        var greenIcon =L.marker(point25,{icon: jiwIcon}).addTo(mymap);
+        var myMarker25 = L.marker(point25, {icon: jiwIcon});
+        myMarker25.addTo(mymap);
+        myMarker25.bindPopup(
+            '<b>Sector Barranco Colorado</b>',
+            {minWidth:300}
+        );
         var circle = L.circle([3.072315, -73.278494], {
         color: 'red',
          fillColor: '#f03',
