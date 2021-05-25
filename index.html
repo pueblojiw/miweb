@@ -306,6 +306,15 @@ var masacreIcon = L.icon({
     iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
+	var homicidioIcon = L.icon({
+    iconUrl: './images/homicidio.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
 
 var puebloIcon = L.icon({
     iconUrl: './images/pueblo.png',
@@ -514,6 +523,13 @@ var puebloIcon = L.icon({
             '<b>Caño Ceiba /Papur lajt/</b> <p><a href= "https://www.eltiempo.com/archivo/documento/CMS-13674177"</a>Noticia El Tiempo</p><a href="https://infoamazonia.org/es/2019/08/espanol-la-tierra-de-los-jiw-en-guaviare-se-acaba-a-manos-de-colonos-militares-y-grupos-ilegales/#!/map=51549&story=post-20126"</a>Documento <p><a href=https://www.parquesnacionales.gov.co/portal/es/ecoturismo/region-amazonia-y-orinoquia/parque-nacional-natural-sierra-de-la-macarena/comunidades/"</a> PNN La Macarena </p></div>',
             {minWidth:300}
         );
+	var point11_a = [2.575484, -72.963033];
+        var greenIcon =L.marker(point11_a,{icon: homicidioIcon}).addTo(mymap);
+        var myMarker11_a = L.marker(point11_a, {icon: homicidioIcon});
+        myMarker11_a.addTo(mymap);
+        myMarker11_a.bindPopup(
+            '<b><p>En el año 2005 la guerrilla reunió a la comunidad, “capitán necesitamos a su gente a las 8 de la mañana, la guerrilla hizo fiesta, peluquería, mataron una res y llamaron a Nevio” (Encuentro Barrancón Caño Ceiba II 25/04/21). Separó a Nevio del grupo y en la escuela lo asesinaron, este hecho fue observado por su sobrino Jaime Catón, quien también fue asesinado. Luego de los homicidios toda la comunidad fue desterrada</p></div>',
+            {minWidth:300}
         var point12 = [3.030719, -70.256775];
         var greenIcon =L.marker(point12,{icon: jiwIcon}).addTo(mymap);
         var myMarker12 = L.marker(point12, {icon: jiwIcon});
