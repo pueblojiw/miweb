@@ -24,6 +24,7 @@
     <script src="cano_mina.geojson"></script>
     <script src="cano_prorio.geojson"></script>
     <script src="cano_ceiba.geojson"></script>
+    <script src="cano_cafre.geojson"></script>
     <script src="data/corozal.geojson"></script>
     <script src="data/pretenciones_etnicas.geojson"></script>
     <script src="data/poligrow.geojson"></script>
@@ -818,6 +819,13 @@ var cañosLayer = L.geoJson(
 	    
 	    var cano_ceiba = L.geoJson(
             cano_ceiba,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+	    var cano_cafre = L.geoJson(
+            cano_cafre,
             {
                 style : cañosStyle,
             onEachFeature : cañosOnEachFeature, 
