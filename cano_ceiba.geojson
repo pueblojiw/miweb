@@ -1,4 +1,4 @@
-{
+var cano_ceiba = {
 "type": "FeatureCollection",
 "name": "cano_ceiba_mina",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
