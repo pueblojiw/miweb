@@ -644,6 +644,14 @@ var puebloIcon = L.icon({
             '<b>Sector Barranco Colorado</b>',
             {minWidth:300}
         );
+	var point25 = [2.896924, -71.546917];
+        var greenIcon =L.marker(point25,{icon: jiwIcon}).addTo(mymap);
+        var myMarker25 = L.marker(point25, {icon: jiwIcon});
+        myMarker25.addTo(mymap);
+        myMarker25.bindPopup(
+            '<b>Bombardeo pista de aterrizaje</b>',
+            {minWidth:300}
+        );
 
 
     var baseMaps = {
