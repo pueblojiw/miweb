@@ -21,7 +21,8 @@
     <script src="data/drenaje_sencillo.geojson"></script>
     <script src="data/rio_guaviare.geojson"></script>
     <script src="data/lagunas.geojson"></script>
-    <script src="cano_mina.geojson"></script>
+    <script src="cano_mina.geojson"></script>  
+    <script src="cano_mocuare.geojson"></script>
     <script src="cano_prorio.geojson"></script>
     <script src="cano_ceiba.geojson"></script>
     <script src="cano_cafre.geojson"></script>
@@ -828,6 +829,14 @@ var cañosLayer = L.geoJson(
 
             var mina = L.geoJson(
             mina,
+            {
+                style : cañosStyle,
+            onEachFeature : cañosOnEachFeature, 
+            }
+            ).addTo(mymap);
+	
+	    var mocuare = L.geoJson(
+            mocuare,
             {
                 style : cañosStyle,
             onEachFeature : cañosOnEachFeature, 
