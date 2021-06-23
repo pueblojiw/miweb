@@ -662,6 +662,14 @@ var puebloIcon = L.icon({
             '<b>Bombardeo pista de aterrizaje 1992</b>',
             {minWidth:300}
         );
+	var point27 = [2.883894, -71.525288];
+        var greenIcon =L.marker(point27,{icon: ejercitoIcon}).addTo(mymap);
+        var myMarker27 = L.marker(point27, {icon: ejercitoIcon});
+        myMarker27.addTo(mymap);
+        myMarker27.bindPopup(
+            '<b>Operativo del ejército en el resguardo, aterrizaron luego del bombardeo en la casa de un vecino gringo y quemaron los bienes de Estela, campesina con una relación amorosa con miembro de Farc</b>',
+            {minWidth:300}
+        );
 
 
     var baseMaps = {
