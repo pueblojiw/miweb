@@ -317,6 +317,16 @@ var homicidioIcon = L.icon({
     popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 });
 
+var avionIcon = L.icon({
+    iconUrl: './images/avion_icon.png',
+
+
+    iconSize:     [60, 61], // size of the icon
+    shadowSize:   [70, 61], // size of the shadow
+    iconAnchor:   [20, 58], // point of the icon which will correspond to marker's location
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+});
+
 var puebloIcon = L.icon({
     iconUrl: './images/pueblo.png',
 
@@ -644,11 +654,11 @@ var puebloIcon = L.icon({
             '<b>Sector Barranco Colorado</b>',
             {minWidth:300}
         );
-	var point25 = [2.896924, -71.546917];
-        var greenIcon =L.marker(point25,{icon: jiwIcon}).addTo(mymap);
-        var myMarker25 = L.marker(point25, {icon: jiwIcon});
-        myMarker25.addTo(mymap);
-        myMarker25.bindPopup(
+	var point26 = [2.896924, -71.546917];
+        var greenIcon =L.marker(point26,{icon: avionIcon}).addTo(mymap);
+        var myMarker26 = L.marker(point26, {icon: avionIcon});
+        myMarker26.addTo(mymap);
+        myMarker26.bindPopup(
             '<b>Bombardeo pista de aterrizaje</b>',
             {minWidth:300}
         );
